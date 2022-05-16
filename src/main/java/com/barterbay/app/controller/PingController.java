@@ -14,12 +14,4 @@ public class PingController {
         return ResponseEntity.ok("Works fine");
     }
 
-    @GetMapping("/a")
-    public ResponseEntity<String> ping2() {
-        Integer a = null;
-        Integer b = null;
-        b.byteValue();
-        return ResponseEntity.ok("Works fine!!@");
-    }
-
 }
