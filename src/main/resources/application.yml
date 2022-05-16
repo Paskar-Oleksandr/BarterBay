@@ -1,0 +1,9 @@
+server:
+  servlet:
+    context-path: /v1
+
+spring:
+  profiles:
+    default: dev
+  application:
+    name: BarterBay
