@@ -14,7 +14,7 @@ public class PingController {
         return ResponseEntity.ok("Works fine");
     }
 
-    @GetMapping
+    @GetMapping("/tes")
     public ResponseEntity<String> ping2() {
         Integer a = 1;
         return ResponseEntity.ok("Works fine");
