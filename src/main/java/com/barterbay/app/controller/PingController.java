@@ -11,6 +11,7 @@ public class PingController {
 
     @GetMapping
     public ResponseEntity<String> ping() {
+        System.out.println();
         return ResponseEntity.ok("Works fine");
     }
 
