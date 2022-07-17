@@ -8,9 +8,9 @@ spring:
 
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/barter_bay
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://aai6k6jf4f51rw.cpe4kaa3farp.us-east-1.rds.amazonaws.com:5432/ebdb
+    username: Alexandro
+    password: G_it_is_a_GramoTa
 
   mail:
     username: BarterBay@gmail.com

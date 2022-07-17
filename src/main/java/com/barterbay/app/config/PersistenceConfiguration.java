@@ -9,5 +9,5 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableJpaRepositories(value = {"com.barterbay.app.repository"})
 @EnableJpaAuditing
-public class PersistenceConfig {
+public class PersistenceConfiguration {
 }

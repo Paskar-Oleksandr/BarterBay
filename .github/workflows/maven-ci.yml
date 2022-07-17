@@ -3,28 +3,23 @@
 # Copyleft (c) by Paskar Oleksandr
 # -------------------------------------------------
 
-name: Java-CI-With-Maven
-
-env:
-  APPLICATION_NAME: "BarterBay"
-  PACKAGE_NAME: "deploy-version-${{ github.sha }}"
+name: Java CI With Maven
 
 on:
   push:
     branches: [ development ]
   pull_request:
-    branches: [ development ]
+    branches:
+      - '**' # matches every branch
 
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
        os: [ubuntu-latest]
 
     steps:
-
     - name: Git clone my repo
       uses: actions/checkout@v3
 
@@ -35,5 +30,5 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Build project with Maven
+      run: mvn clean install -Dactive.profile=prod -DskipTests
