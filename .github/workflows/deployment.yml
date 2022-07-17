@@ -8,18 +8,20 @@
 name: Deployment to AWS Elastic Beanstalk
 
 env:
-  EB_PACKAGE_S3_BACKET_NAME: "barter-bay-app-packages"
-  EB_APPLICATION_NAME      : "BarterBay"
-  EB_ENV_NAME              : "Barterbay-env-1"
-  DEPLOY_PACKAGE_NAME      : "BarterBay-${{ github.sha }}.zip"
-  AWS_REGION_NAME          : "us-east-1"
+  EB_PACKAGE_S3_BACKET_NAME        : "barter-bay-app-packages"
+  EB_APPLICATION_NAME              : "BarterBay"
+  EB_ENV_NAME                      : "Barterbay-env-1"
+  AWS_REGION_NAME                  : "us-east-1"
+  APPLICATION_JAR_FILE_PATH        : "target/BarterBay-0.0.1-SNAPSHOT.jar"
+  RENAMED_APPLICATION_JAR_FILE_PATH: "target/${{ github.sha }}-BarterBay-0.0.1-SNAPSHOT.jar"
+  RENAMED_APPLICATION_JAR_FILE     : "${{ github.sha }}-BarterBay-0.0.1-SNAPSHOT.jar"
 
 on:
   push:
     branches: [ development ]
 
 jobs:
-  build:
+  pushToS3Bucket:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -37,22 +39,10 @@ jobs:
           cache: maven
 
       - name: Build project with Maven
-        run: mvn clean install -Dactive.profile=prod -DskipTests
+        run: mvn clean install -f pom.xml -Dactive.profile=prod -DskipTests
 
-  pushToS3Bucket:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-
-    needs: [build]
-
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v3
-
-      - name: Create ZIP Deployment package
-        run: zip -r ${{ env.DEPLOY_PACKAGE_NAME}} ./ -x *.git*
+      - name: Remema jar file
+        run: mv ${{ env.APPLICATION_JAR_FILE_PATH}} ${{ env.RENAMED_APPLICATION_JAR_FILE_PATH}}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -62,7 +52,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION_NAME}}
 
       - name: Copy Deployment package to S3 bucket
-        run: aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME}} s3://${{ env.EB_PACKAGE_S3_BACKET_NAME}}/
+        run: aws s3 cp ${{ env.RENAMED_APPLICATION_JAR_FILE_PATH}} s3://${{ env.EB_PACKAGE_S3_BACKET_NAME}}/
 
   deploymentToAWSElasticBeanstalk:
     runs-on: ${{ matrix.os }}
@@ -84,7 +74,7 @@ jobs:
         run: |
           aws elasticbeanstalk create-application-version \
           --application-name ${{ env.EB_APPLICATION_NAME }} \
-          --source-bundle S3Bucket="${{ env.EB_PACKAGE_S3_BACKET_NAME }}",S3Key="${{ env.DEPLOY_PACKAGE_NAME }}" \
+          --source-bundle S3Bucket="${{ env.EB_PACKAGE_S3_BACKET_NAME }}",S3Key="${{ env.RENAMED_APPLICATION_JAR_FILE }}" \
           --version-label "Ver-${{ github.sha }}" \
           --description "CommitSHA-${{ github.sha }}"
 

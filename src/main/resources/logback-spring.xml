@@ -3,8 +3,6 @@
 
   <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
-  <springProfile name="!prod">
-
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
         <Pattern>
@@ -36,36 +34,10 @@
       <appender-ref ref="STDOUT"/>
     </root>
 
-  </springProfile>
+  <logger name="BarterBay" level="DEBUG"/>
 
-  <springProfile name="prod">
-
-    <appender name="FileLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
-      <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-        <fileNamePattern>/app/logs/barterBay-app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-        <maxHistory>5</maxHistory>
-        <maxFileSize>50MB</maxFileSize>
-      </rollingPolicy>
-
-      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <Pattern>
-          %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
-        </Pattern>
-      </encoder>
-
-    </appender>
-
-    <root level="INFO">
-      <appender-ref ref="FileLogger"/>
-    </root>
-
-    <logger name="barterBay" level="DEBUG"/>
-
-    <logger name="org.hibernate" level="error" additivity="false">
-      <appender-ref ref="FileLogger"/>
-    </logger>
-
-  </springProfile>
-
+  <logger name="org.hibernate" level="error" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
 
 </configuration>

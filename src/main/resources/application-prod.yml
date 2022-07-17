@@ -22,4 +22,3 @@ spring:
 
 jwt:
   secret: Y # to be defined after JWT implementation
-
