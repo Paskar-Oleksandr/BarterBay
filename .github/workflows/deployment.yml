@@ -26,7 +26,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - name: Git clone my repo
+      - name: Clone repository
         uses: actions/checkout@v3
 
       - name: Set up JDK 11
@@ -48,6 +48,9 @@ jobs:
     needs: [build]
 
     steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
       - name: Create ZIP Deployment package
         run: zip -r ${{ env.DEPLOY_PACKAGE_NAME}} ./ -x *.git*
 
