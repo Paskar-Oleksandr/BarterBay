@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StopWatch;
-import tech.jhipster.config.DefaultProfileUtil;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -21,7 +20,7 @@ public class BarterBay {
   public static void main(String[] args) {
     watchStartup.start("BarterBay Api Startup");
     var app = new SpringApplication(BarterBay.class);
-    DefaultProfileUtil.addDefaultProfile(app);
+    //DefaultProfileUtil.addDefaultProfile(app);
     ConfigurableApplicationContext context = app.run(args);
     var env = context.getEnvironment();
     watchStartup.stop();

@@ -8,13 +8,13 @@ spring:
 
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://aa1snx7djs6xpcb.cpe4kaa3farp.us-east-1.rds.amazonaws.com:5432/ebdb
-    username: Alexandro
-    password: G_it_is_a_GramoTa
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   mail:
     username: BarterBay@gmail.com
-    password: SuperProductionPassword
+    password: ${EMAIL_CLIENT_PROD_PASSWORD}
 
 # ===================================================================
 # Barter Bay Application specific properties
@@ -22,4 +22,3 @@ spring:
 
 jwt:
   secret: Y # to be defined after JWT implementation
-

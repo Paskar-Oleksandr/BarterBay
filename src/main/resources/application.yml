@@ -13,6 +13,9 @@ server:
     context-path: /v1/bb
 
 spring:
+  profiles:
+    default: prod
+
   application:
     name: BarterBay
 
@@ -61,8 +64,8 @@ spring:
             non_contextual_creation: true
 
   liquibase:
-        enabled: true
-        change-log: classpath:/db/changelog-master.xml
+    enabled: true
+    change-log: classpath:/db/changelog-master.xml
 
   main:
     allow-bean-definition-overriding: true
