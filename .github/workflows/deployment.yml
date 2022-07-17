@@ -41,9 +41,10 @@ jobs:
 
   archiving:
     runs-on: ${{ matrix.os }}
-      strategy:
-        matrix:
-          os: [ubuntu-latest]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]]
+
     needs: [build]
 
     steps:
@@ -52,9 +53,10 @@ jobs:
 
   pushToS3Bucket:
     runs-on: ${{ matrix.os }}
-      strategy:
-        matrix:
-          os: [ubuntu-latest]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
     needs: [archiving]
 
     steps:
@@ -70,10 +72,11 @@ jobs:
 
   deploymentToAWSElasticBeanstalk:
     runs-on: ${{ matrix.os }}
-      strategy:
-        matrix:
-          os: [ubuntu-latest]
-    needs: [archiving]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    needs: [pushToS3Bucket]
 
     steps:
       - name: Configure AWS Credentials
