@@ -14,13 +14,13 @@ import java.net.UnknownHostException;
 
 @Slf4j
 @SpringBootApplication
-public class BarterBayApplication {
+public class BarterBay {
 
   private static final StopWatch watchStartup = new StopWatch("Startup Api");
 
   public static void main(String[] args) {
     watchStartup.start("BarterBay Api Startup");
-    var app = new SpringApplication(BarterBayApplication.class);
+    var app = new SpringApplication(BarterBay.class);
     DefaultProfileUtil.addDefaultProfile(app);
     ConfigurableApplicationContext context = app.run(args);
     var env = context.getEnvironment();

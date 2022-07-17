@@ -1,0 +1,95 @@
+# This workflow will build a Java project with Maven,
+# and cache/restore any dependencies to improve the workflow execution time
+# Also it will deploy application to AWS Elastic Beanstalk
+# -------------------------------------------------
+# Copyleft (c) by Paskar Oleksandr
+# -------------------------------------------------
+
+name: Deployment to AWS Elastic Beanstalk
+
+env:
+  EB_PACKAGE_S3_BACKET_NAME: "barter-bay-app-packages"
+  EB_APPLICATION_NAME      : "BarterBay"
+  EB_ENV_NAME              : "BarterBay-env"
+  DEPLOY_PACKAGE_NAME      : "BarterBay-${{ github.sha }}.zip"
+  AWS_REGION_NAME          : "us-east-1"
+
+on:
+  push:
+    branches: [ development ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Git clone my repo
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build project with Maven
+        run: mvn clean install -Dactive.profile=prod -DskipTests
+
+  archiving:
+    runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-latest]
+    needs: [build]
+
+    steps:
+      - name: Create ZIP Deployment package
+        run: zip -r ${{ env.DEPLOY_PACKAGE_NAME}} ./ -x *.git*
+
+  pushToS3Bucket:
+    runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-latest]
+    needs: [archiving]
+
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.BARTER_BAY_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.BARTER_BAY_AWS_SECRET_KEY }}
+          aws-region: ${{ env.AWS_REGION_NAME}}
+
+      - name: Copy Deployment package to S3 bucket
+        run: aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME}} s3://${{ env.EB_PACKAGE_S3_BACKET_NAME}}/
+
+  deploymentToAWSElasticBeanstalk:
+    runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-latest]
+    needs: [archiving]
+
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.BARTER_BAY_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.BARTER_BAY_AWS_SECRET_KEY }}
+          aws-region: ${{ env.AWS_REGION_NAME}}
+
+      - name: Create new AWS Elastic Beanstalk version
+        run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name ${{ env.EB_APPLICATION_NAME }} \
+          --source-bundle S3Bucket="${{ env.EB_PACKAGE_S3_BACKET_NAME }}",S3Key="${{ env.DEPLOY_PACKAGE_NAME }}" \
+          --version-label "Ver-${{ github.sha }}" \
+          --description "CommitSHA-${{ github.sha }}"
+
+      - name: Deploy new application AWS Elastic Beanstalk version
+        run: aws elasticbeanstalk update-environment-name ${{ env.EB_ENV_NAME }} --version-label "Ver-${{ github.sha }}"

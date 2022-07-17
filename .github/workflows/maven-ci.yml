@@ -5,10 +5,6 @@
 
 name: Java CI With Maven
 
-env:
-  APPLICATION_NAME: "BarterBay"
-  PACKAGE_NAME: "deploy-version-${{ github.sha }}"
-
 on:
   push:
     branches: [ development ]
@@ -18,14 +14,12 @@ on:
 
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
        os: [ubuntu-latest]
 
     steps:
-
     - name: Git clone my repo
       uses: actions/checkout@v3
 
