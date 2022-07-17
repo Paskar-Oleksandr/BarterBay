@@ -3,7 +3,7 @@
 # Copyleft (c) by Paskar Oleksandr
 # -------------------------------------------------
 
-name: Java-CI-With-Maven
+name: Java CI With Maven
 
 env:
   APPLICATION_NAME: "BarterBay"
@@ -13,7 +13,8 @@ on:
   push:
     branches: [ development ]
   pull_request:
-    branches: [ development ]
+    branches:
+      - '**' # matches every branch
 
 jobs:
   build:
