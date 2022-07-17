@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+  <springProfile name="!prod">
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <Pattern>
+          %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+        </Pattern>
+      </encoder>
+    </appender>
+
+    <logger name="org.hibernate.SQL" level="debug" additivity="false">
+      <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.hibernate.type.descriptor.sql" level="trace" additivity="false">
+      <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.hibernate.stat" level="debug" additivity="false">
+      <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.hibernate.SQL_SLOW" level="info" additivity="false">
+      <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.hibernate.cache" level="debug" additivity="false">
+      <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="com.zaxxer.hikari" level="INFO"/>
+
+    <root level="info">
+      <appender-ref ref="STDOUT"/>
+    </root>
+
+  </springProfile>
+
+  <springProfile name="prod">
+
+    <appender name="FileLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <fileNamePattern>/app/logs/barterBay-app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+        <maxHistory>5</maxHistory>
+        <maxFileSize>50MB</maxFileSize>
+      </rollingPolicy>
+
+      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <Pattern>
+          %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+        </Pattern>
+      </encoder>
+
+    </appender>
+
+    <root level="INFO">
+      <appender-ref ref="FileLogger"/>
+    </root>
+
+    <logger name="barterBay" level="DEBUG"/>
+
+    <logger name="org.hibernate" level="error" additivity="false">
+      <appender-ref ref="FileLogger"/>
+    </logger>
+
+  </springProfile>
+
+
+</configuration>
