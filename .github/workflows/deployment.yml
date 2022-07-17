@@ -9,7 +9,7 @@ name: Deployment to AWS Elastic Beanstalk
 
 env:
   EB_PACKAGE_S3_BACKET_NAME: "barter-bay-app-packages"
-  EB_APPLICATION_NAME      : "BarterBay"
+  EB_APPLICATION_NAME      : "Barter Bay"
   EB_ENV_NAME              : "BarterBay-env"
   DEPLOY_PACKAGE_NAME      : "BarterBay-${{ github.sha }}.zip"
   AWS_REGION_NAME          : "us-east-1"
@@ -39,7 +39,7 @@ jobs:
       - name: Build project with Maven
         run: mvn clean install -Dactive.profile=prod -DskipTests
 
-  archiving:
+  pushToS3Bucket:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -54,15 +54,6 @@ jobs:
       - name: Create ZIP Deployment package
         run: zip -r ${{ env.DEPLOY_PACKAGE_NAME}} ./ -x *.git*
 
-  pushToS3Bucket:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-
-    needs: [archiving]
-
-    steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
