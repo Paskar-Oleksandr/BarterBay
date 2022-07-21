@@ -15,7 +15,7 @@ public class PingController {
 
     Integer a = null;
     a.byteValue();
-    return ResponseEntity.ok("Works fine");
+    //return ResponseEntity.ok("Works fine");
   }
 
 }
