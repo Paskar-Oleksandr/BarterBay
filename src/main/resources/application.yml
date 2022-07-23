@@ -109,3 +109,10 @@ spring:
 # ===================================================================
 # Barter Bay Application specific properties
 # ===================================================================
+
+telegram-bot:
+  name: ${BOT_NAME}
+  token: ${BOT_TOKEN}
+
+random-compliment-api:
+  url: https://complimentr.com/api
