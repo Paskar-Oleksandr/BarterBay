@@ -10,7 +10,8 @@ on:
     branches: [ development ]
   pull_request:
     branches:
-      - '**' # matches every branch
+      - '**'             # matches every branch
+      - '!development'   # excludes development
 
 jobs:
   build:
