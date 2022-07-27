@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="004_add_user" author="Hvozdetska Yana">
+    <sql>
+      INSERT INTO bb_user
+      VALUES (1, 'u.email@gmail.com', 'Yana', 'Hvozdetska', 'UGFzc3dvcmRfcGFzc3dvcmQ=', 0, now(), now()),
+             (2, 'ffffffff.email@gmail.com', 'Tom', 'Smit', 'UGFzc3dvcmRfcGFzc3dvcmQx', 0, now(), now());
+    </sql>
+  </changeSet>
+
+</databaseChangeLog>

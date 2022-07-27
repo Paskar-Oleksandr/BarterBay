@@ -6,18 +6,20 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Getter
 @Setter
 public class UserDTO {
-
   @NotBlank(message = "Email cannot be empty")
   @Email(message = "Please enter a valid email address")
   @UserUniqueEmail
   private String email;
-
-  @NotBlank(message = "First name can not be empty")
+  @NotBlank(message = "First name cannot be empty")
   private String firstName;
+  private Long id;
+  private String lastName;
+  private String password;
+  private Set<GoodDTO> goods;
 
-  // TODO complete this DTO
 }
