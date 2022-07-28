@@ -7,5 +7,8 @@
 
   <include file="db/changelogs/001_init_base_tables.xml" relativeToChangelogFile="false"/>
   <include file="db/changelogs/002_default_user.xml" relativeToChangelogFile="false"/>
+  <include file="db/changelogs/003_add_bb_user_userRole.xml" relativeToChangelogFile="false"/>
+  <include file="db/changelogs/004_add_default_user.xml" relativeToChangelogFile="false"/>
+
 
 </databaseChangeLog>
