@@ -1,7 +1,7 @@
 package com.barterbay.app.config;
 
 import com.barterbay.app.service.UserService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,16 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-//TODO BB-21
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   private final UserService userService;
-
-  public SecurityConfiguration(@Qualifier("userService") UserService userService) {
-    this.userService = userService;
-  }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -33,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .anyRequest().authenticated()
       .and()
       .formLogin()
-//      .loginPage("/auth/login").permitAll()
+      .loginPage("/auth/login").permitAll()
       .and()
       .logout()
       .invalidateHttpSession(true)
