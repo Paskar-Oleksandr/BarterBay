@@ -26,4 +26,3 @@ public interface GoodMapper {
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
   void updateGood(GoodDTO goodDTO, @MappingTarget Good good);
 }
-
