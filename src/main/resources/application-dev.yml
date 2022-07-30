@@ -24,7 +24,7 @@ spring:
 
   mail:
     username: BarterBay.localhost@gmail.com
-    password: justTestPassword
+    password: ${EMAIL_CLIENT_DEV_PASSWORD}
 
 # ===================================================================
 # Barter Bay Application specific properties
