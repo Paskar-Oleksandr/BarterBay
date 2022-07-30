@@ -8,5 +8,4 @@ import org.mapstruct.Mapper;
 public interface AddressMapper {
 
   Address addressDTOToAddressEntity(AddressDTO addressDTO);
-
 }
