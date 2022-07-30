@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface GoodRepository extends JpaRepository<Good, Long> {
   @Override
-  @EntityGraph(attributePaths = {"bb_user"}, type = EntityGraph.EntityGraphType.LOAD)
+  @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.LOAD)
   Optional<Good> findById(Long aLong);
 }
