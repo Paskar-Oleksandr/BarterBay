@@ -23,7 +23,8 @@ import java.time.LocalDateTime;
 @Setter
 public abstract class AbstractAuditingEntity implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = -3302438363141373749L;
+
 // TODO implement after spring security
 //  @CreatedBy
 //  @Column(name = "created_by", nullable = false, length = 50, updatable = false)

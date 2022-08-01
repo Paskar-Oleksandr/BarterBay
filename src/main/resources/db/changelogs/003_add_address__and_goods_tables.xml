@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="003_add_address_table" author="Hvozdetska Yana">
+    <sql>
+      DROP SEQUENCE IF EXISTS address_sequence;
+      DROP SEQUENCE IF EXISTS good_sequence;
+
+      CREATE SEQUENCE address_sequence INCREMENT BY 1;
+      CREATE SEQUENCE good_sequence INCREMENT BY 1;
+
+      DROP TABLE IF EXISTS address CASCADE;
+      DROP TABLE IF EXISTS good CASCADE;
+
+      CREATE TABLE address
+      (
+      address_id BIGINT PRIMARY KEY,
+      country    VARCHAR(50) NOT NULL,
+      city       VARCHAR(50) NOT NULL,
+      street     VARCHAR(50) NOT NULL,
+      zip_code   INT         NOT NULL,
+      version    BIGINT
+      );
+
+      CREATE TABLE good
+      (
+      good_id            BIGINT PRIMARY KEY,
+      good_name          VARCHAR(100)  NOT NULL,
+      description        VARCHAR(1000) NOT NULL,
+      category           VARCHAR       NOT NULL,
+      version            BIGINT,
+      address_id         BIGINT UNIQUE NOT NULL,
+      user_id            BIGINT        NOT NULL,
+      created_date       TIMESTAMP     NOT NULL,
+      last_modified_date TIMESTAMP     NOT NULL,
+
+      FOREIGN KEY (address_id) REFERENCES address (address_id),
+      FOREIGN KEY (user_id) REFERENCES bb_user (user_id)
+      );
+
+    </sql>
+  </changeSet>
+
+</databaseChangeLog>

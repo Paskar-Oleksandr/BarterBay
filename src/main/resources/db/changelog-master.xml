@@ -7,5 +7,6 @@
 
   <include file="db/changelogs/001_init_base_tables.xml" relativeToChangelogFile="false"/>
   <include file="db/changelogs/002_default_user.xml" relativeToChangelogFile="false"/>
+  <include file="db/changelogs/003_add_address__and_goods_tables.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>
