@@ -1,6 +1,7 @@
 package com.barterbay.app.controller;
 
-import com.barterbay.app.domain.dto.good.GoodCreatedDTO;
+import com.barterbay.app.domain.Good;
+import com.barterbay.app.domain.dto.good.GoodDTO;
 import com.barterbay.app.servcie.GoodService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/good")
@@ -23,15 +27,20 @@ public class GoodController {
   private final GoodService goodService;
 
   @GetMapping("/{goodId}")
-  public ResponseEntity<GoodCreatedDTO> getGoodById(@PathVariable long goodId) {
+  public ResponseEntity<GoodDTO> getGoodById(@PathVariable long goodId) {
     return ResponseEntity.ok(goodService.findGoodById(goodId));
+  }
+
+  @GetMapping
+  public ResponseEntity<List<GoodDTO>> findAllGoods() {
+    return ResponseEntity.ok(goodService.findAllGoods());
   }
 
   @PutMapping("/{goodId}")
   @ResponseStatus(HttpStatus.OK)
   public void updateGoodById(@PathVariable long goodId,
-                             @RequestBody GoodCreatedDTO goodCreatedDTO) {
-    goodService.updateGoodById(goodId, goodCreatedDTO);
+                             @RequestBody @Valid GoodDTO goodDTO) {
+    goodService.updateGoodById(goodId, goodDTO);
   }
 
   @DeleteMapping("/{goodId}")
@@ -41,9 +50,8 @@ public class GoodController {
   }
 
   @PostMapping
-  public ResponseEntity<GoodCreatedDTO> createGood(@RequestBody GoodCreatedDTO goodCreatedDTO) {
-    this.goodService.saveGood(goodCreatedDTO);
-    return new ResponseEntity<>(goodCreatedDTO, HttpStatus.CREATED);
+  public ResponseEntity<Good> createGood(@RequestBody @Valid GoodDTO goodDTO) {
+    return new ResponseEntity<>(goodService.saveGood(goodDTO), HttpStatus.CREATED);
   }
 }
 

@@ -3,21 +3,17 @@ package com.barterbay.app.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "address")
-public class Address extends AbstractAuditingEntity {
+public class Address implements Serializable {
+
+  private static final long serialVersionUID = -7890060770610734074L;
 
   @Id
   @Column(name = "address_id")
@@ -44,6 +40,9 @@ public class Address extends AbstractAuditingEntity {
   @Column(name = "zip_code", nullable = false)
   private int zipCode;
 
-  @OneToOne(mappedBy = "address")
+  @Version
+  private Long version;
+
+  @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
   private Good good;
 }

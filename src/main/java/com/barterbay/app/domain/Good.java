@@ -17,13 +17,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "good")
 public class Good extends AbstractAuditingEntity {
+
+  private static final long serialVersionUID = -2551337806445640103L;
 
   @Id
   @Column(name = "good_id")
@@ -35,23 +39,41 @@ public class Good extends AbstractAuditingEntity {
   private Long id;
 
   @NotBlank
-  @Column(name = "name", nullable = false, length = 100)
+  @Column(name = "good_name", nullable = false, length = 100)
   private String goodName;
 
   @NotBlank
-  @Column(name = "description", nullable = false, unique = true, length = 200)
+  @Column(nullable = false, length = 1000)
   private String description;
 
   @NotBlank
-  @Column(name = "category", nullable = false)
+  @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private Category category;
 
+  @Version
+  private Long version;
+
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "address_id", nullable = false)
+  @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
   private Address address;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Good good = (Good) o;
+    return id != null && Objects.equals(id, good.id);
+  }
+
+  @Override
+  public int hashCode() {
+    // should be fixed since we use strategy = GenerationType.SEQUENCE
+    // and there`s no unique fields
+    return 31;
+  }
 }

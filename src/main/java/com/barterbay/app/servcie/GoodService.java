@@ -1,13 +1,18 @@
 package com.barterbay.app.servcie;
 
 import com.barterbay.app.domain.Good;
-import com.barterbay.app.domain.dto.good.GoodCreatedDTO;
-import com.barterbay.app.mapper.AddressMapper;
+import com.barterbay.app.domain.User;
+import com.barterbay.app.domain.dto.good.GoodDTO;
 import com.barterbay.app.mapper.GoodMapper;
 import com.barterbay.app.repository.GoodRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Service
 @Transactional
@@ -16,35 +21,38 @@ public class GoodService {
 
   private final GoodRepository goodRepository;
   private final GoodMapper goodMapper;
-  private final AddressMapper addressMapper;
+  @PersistenceContext
+  private final EntityManager entityManager;
 
   @Transactional(readOnly = true)
-  public GoodCreatedDTO findGoodById(long goodId) {
-    return goodMapper.goodEntityToGoodDTO(goodRepository.findById(goodId).orElseThrow());
+  public List<GoodDTO> findAllGoods() {
+    final var goods = goodRepository.findAll();
+    return goodMapper.goodEntityToGoodDTO(goods);
   }
 
-  public void updateGoodById(long goodId, GoodCreatedDTO goodCreatedDTO) {
-    final Good goodById = goodRepository.findById(goodId).orElseThrow();
-    if (goodCreatedDTO.getGoodName() != null) {
-      goodById.setGoodName(goodCreatedDTO.getGoodName());
-    }
-    if (goodCreatedDTO.getDescription() != null) {
-      goodById.setDescription(goodCreatedDTO.getDescription());
-    }
-    if (goodCreatedDTO.getAddress() != null) {
-      goodById.setAddress(addressMapper.addressDTOToAddressEntity(goodCreatedDTO.getAddress()));
-    }
-    if (goodCreatedDTO.getCategory() != null) {
-      goodById.setCategory(goodCreatedDTO.getCategory());
-    }
+  @Transactional(readOnly = true)
+  public GoodDTO findGoodById(long goodId) {
+    return goodRepository.findById(goodId)
+      .map(goodMapper::goodEntityToGoodDTO)
+      .orElseThrow();
+  }
+
+  public void updateGoodById(long goodId, GoodDTO goodDTO) {
+    goodRepository.findById(goodId)
+      .ifPresentOrElse(good -> goodMapper.updateGood(goodDTO, good),
+        () -> {
+          throw new EntityNotFoundException("Good with " + goodId + " not found");
+        });
   }
 
   public void deleteGoodById(long goodId) {
     goodRepository.deleteById(goodId);
   }
 
-  public void saveGood(GoodCreatedDTO goodCreatedDTO) {
-    final var good = goodMapper.goodDTOToGoodEntity(goodCreatedDTO);
-    goodRepository.save(good);
+  public Good saveGood(GoodDTO goodDTO) {
+    final var good = goodMapper.goodDTOToGoodEntity(goodDTO);
+    final var userReference = entityManager.getReference(User.class, goodDTO.getUserOwnerId());
+    good.setUser(userReference);
+    return goodRepository.save(good);
   }
 }

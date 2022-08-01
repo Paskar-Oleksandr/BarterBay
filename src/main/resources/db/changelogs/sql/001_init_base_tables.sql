@@ -17,5 +17,3 @@ CREATE TABLE bb_user
 
 CREATE UNIQUE INDEX ue_index ON bb_user (email);
 
-
-

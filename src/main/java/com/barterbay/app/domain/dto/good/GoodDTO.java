@@ -6,17 +6,26 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class GoodCreatedDTO {
+public class GoodDTO {
+
   private Long id;
+
   @NotBlank(message = "Good`s name cannot be empty")
   private String goodName;
+
   @NotBlank(message = "Description cannot be empty")
   private String description;
-  @NotBlank(message = "Category cannot be empty")
+
+  @NotNull(message = "Category cannot be null")
   private Category category;
+
+  @NotNull(message = "Address cannot be null")
   private AddressDTO address;
+
+  @NotNull(message = "User id cannot be empty")
   private Long userOwnerId;
 }
