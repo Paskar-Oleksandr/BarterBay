@@ -13,7 +13,7 @@ spring:
     password: ${DB_PASSWORD}
 
   mail:
-    username: BarterBay@gmail.com
+    username: barterbayprod@gmail.com
     password: ${EMAIL_CLIENT_PROD_PASSWORD}
 
 # ===================================================================
