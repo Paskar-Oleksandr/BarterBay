@@ -4,6 +4,7 @@ import com.barterbay.app.enumeration.Category;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,12 +15,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -46,7 +49,6 @@ public class Good extends AbstractAuditingEntity {
   @Column(nullable = false, length = 1000)
   private String description;
 
-  @NotBlank
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private Category category;
@@ -54,13 +56,16 @@ public class Good extends AbstractAuditingEntity {
   @Version
   private Long version;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
   private Address address;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
+
+  @OneToMany(mappedBy = "good", cascade = CascadeType.ALL)
+  private Set<GoodPhoto> goodPhotos;
 
   @Override
   public boolean equals(Object o) {
