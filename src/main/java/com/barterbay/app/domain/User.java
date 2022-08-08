@@ -12,18 +12,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "bb_user",
   indexes = @Index(name = "ue_index", columnList = "email", unique = true))
 @Getter
 @Setter
-public class User extends AbstractAuditingEntity implements Serializable {
+public class User extends AbstractAuditingEntity {
+
+  private static final long serialVersionUID = -2548006027287809458L;
 
   @Id
   @Column(name = "user_id")
@@ -52,6 +55,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
   @Version
   private Long version;
+
+  @OneToMany(mappedBy = "user")
+  private Set<Good> goods;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "user_role", nullable = false, length = 50)

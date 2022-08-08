@@ -1,5 +1,6 @@
 package com.barterbay.app.config;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
@@ -24,13 +25,10 @@ import java.util.concurrent.ScheduledExecutorService;
 @Slf4j
 @EnableAsync
 @EnableScheduling
+@AllArgsConstructor
 public class AsyncConfiguration implements AsyncConfigurer, SchedulingConfigurer {
 
   private final TaskExecutionProperties taskExecutionProperties;
-
-  public AsyncConfiguration(TaskExecutionProperties taskExecutionProperties) {
-    this.taskExecutionProperties = taskExecutionProperties;
-  }
 
   @Override
   @Bean(name = "taskExecutor")
