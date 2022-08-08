@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -28,16 +29,5 @@
     </logger>
 
     <logger name="org.springframework" level="INFO"/>
-    <logger name="com.zaxxer.hikari" level="INFO"/>
-
-    <root level="info">
-      <appender-ref ref="STDOUT"/>
-    </root>
-
-  <logger name="BarterBay" level="DEBUG"/>
-
-  <logger name="org.hibernate" level="error" additivity="false">
-    <appender-ref ref="STDOUT"/>
-  </logger>
 
 </configuration>

@@ -2,7 +2,6 @@ package com.barterbay.app.servcie;
 
 import com.barterbay.app.exception.SendEmailException;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -13,7 +12,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Service
-@Slf4j
 @AllArgsConstructor
 public class EmailService {
 
@@ -39,7 +37,6 @@ public class EmailService {
       mimeMessageHelper.setSubject(subject);
       mimeMessageHelper.setText(text, true);
     } catch (MessagingException e) {
-      log.error("Error while sending email");
       throw new SendEmailException(e.getMessage());
     }
   }
@@ -56,7 +53,6 @@ public class EmailService {
         mimeMessageHelper.addAttachment(attachment.getOriginalFilename(), attachment);
       }
     } catch (MessagingException e) {
-      log.error("Error while sending email with attachments");
       throw new SendEmailException(e.getMessage());
     }
   }
