@@ -114,12 +114,19 @@ compliment-telegram-bot:
   name: ${COMPLIMENT_BOT_NAME}
   token: ${COMPLIMENT_BOT_TOKEN}
 
+compliment-stasya-telegram-bot:
+  name: ${COMPLIMENT_STASYA_BOT_NAME}
+  token: ${COMPLIMENT_STASYA_BOT_TOKEN}
+
 prediction-telegram-bot:
   name: ${PREDICTION_BOT_NAME}
   token: ${PREDICTION_BOT_TOKEN}
 
 random-compliment-api:
   url: https://complimentr.com/api
+
+horoscope-api:
+  url: https://aztro.sameerkumar.website
 
 aws:
   all-bucket-names: bb-good-photos,barter-bay-app-packages
