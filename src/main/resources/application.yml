@@ -128,6 +128,9 @@ random-compliment-api:
 horoscope-api:
   url: https://aztro.sameerkumar.website
 
+yes-or-no-api:
+  url: https://www.goddessflight.com/magiceightballresponses.txt
+
 aws:
   all-bucket-names: bb-good-photos,barter-bay-app-packages
   s3:

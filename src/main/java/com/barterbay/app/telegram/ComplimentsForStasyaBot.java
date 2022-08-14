@@ -14,11 +14,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.barterbay.app.telegram.ComplimentBot.createSendMessageForTelegram;
 import static com.barterbay.app.util.CollectionsUtil.getRandomSetElement;
@@ -30,12 +32,15 @@ public class ComplimentsForStasyaBot extends TelegramLongPollingBot {
 
   private static final Set<String> DAY_COMMAND_SET = Set.of("yesterday", "tomorrow", "today");
   private static final String SAY_SOMETHING_COMMAND = "/saysomething";
+  private static final String FORTUNE = "/fortune";
+  private static final String ASK_CRYSTAL_BALL = "/askcrystalball";
   private static final String HOROSCOPE_COMMAND = "/horoscope";
   private static final Map<Integer, String> HOROSCOPE_MAP = new HashMap<>();
 
   private String horoscopeSign;
 
   private Set<String> phrases;
+  private Set<String> fortune;
 
   @Value("${compliment-stasya-telegram-bot.name}")
   private String botUsername;
@@ -45,6 +50,9 @@ public class ComplimentsForStasyaBot extends TelegramLongPollingBot {
 
   @Value("${horoscope-api.url}")
   private String horoscopeAPIUrl;
+
+  @Value("${yes-or-no-api.url}")
+  private String yesOrNoAPIUrl;
 
   private final WebClient webClient;
 
@@ -70,14 +78,49 @@ public class ComplimentsForStasyaBot extends TelegramLongPollingBot {
     if (START_COMMAND.equals(botCommand)) {
       sendGreeting(update);
     } else if (SAY_SOMETHING_COMMAND.equals(botCommand)) {
-      execute(createPrediction(update));
+      execute(saySomething(update, phrases));
     } else if (HOROSCOPE_COMMAND.equals(botCommand)) {
       sendChooseZodiacSign(update);
     } else if (Character.isDigit(botCommand.charAt(0))) {
       sendChooseDayForHoroscope(update);
     } else if (DAY_COMMAND_SET.contains(botCommand)) {
       sendHoroscope(update);
+    } else if (FORTUNE.equals(botCommand)) {
+      execute(saySomething(update, fortune));
+    } else if (ASK_CRYSTAL_BALL.equals(botCommand)) {
+      askToProvideQuestion(update);
+    } else {
+      responseForCrystalBall(update);
     }
+  }
+
+  @SneakyThrows
+  private void responseForCrystalBall(Update update) {
+    final var randomAnswers = Arrays.stream(webClient
+      .get()
+      .uri(yesOrNoAPIUrl)
+      .retrieve()
+      .bodyToMono(String.class)
+      .block()
+      .split("\n"))
+      .collect(Collectors.toSet());
+    final var randomAnswer = getRandomSetElement(randomAnswers);
+
+    final var sendMessage = new SendMessage();
+    sendMessage.setChatId(update.getMessage().getChatId());
+    sendMessage.setText(randomAnswer);
+
+    execute(sendMessage);
+  }
+
+  @SneakyThrows
+  private void askToProvideQuestion(Update update) {
+    final var sendMessage = new SendMessage();
+    final var userFirstName = update.getMessage().getFrom().getFirstName();
+    sendMessage.setChatId(update.getMessage().getChatId());
+    sendMessage.setText(userFirstName.concat(", please, enter any Yes or No question"));
+
+    execute(sendMessage);
   }
 
   @SneakyThrows
@@ -116,7 +159,7 @@ public class ComplimentsForStasyaBot extends TelegramLongPollingBot {
     var additionalInfo = "";
 
     if ("aries".equals(horoscopeSign)) {
-      additionalInfo = ".\n".concat("p.s. Aries - this is my favorite zodiac sign despite being programmed by a guy whose zodiac sign is cancer :DD");
+      additionalInfo = ".\n\n".concat("p.s. Aries - this is my favorite zodiac sign despite being programmed by a guy whose zodiac sign is cancer :DD");
     }
 
     final var sendMessage = new SendMessage();
@@ -191,13 +234,16 @@ public class ComplimentsForStasyaBot extends TelegramLongPollingBot {
     final var messageText = "Bonjour Mademoiselle "
       .concat(userFirstName)
       .concat(". Finally you are here, glad to see you. ")
-      .concat("Hurry up, press /saysomething or /horoscope if you want to hear some magic");
+      .concat("Hurry up, press /saysomething - if you want to hear something funny\n" +
+        "Press /horoscope - if you want to hear some magic\n" +
+        "Press /fortune to generate fortune cookie sayings\n" +
+        "Press /askcrystalball - if you have a question for magic crystal ball");
     execute(createSendMessageForTelegram(update, messageText));
   }
 
-  private SendMessage createPrediction(Update update) {
+  private SendMessage saySomething(Update update, Set<String> set) {
     final var userFirstName = update.getMessage().getFrom().getFirstName();
-    final var randomPrediction = getRandomSetElement(phrases);
+    final var randomPrediction = getRandomSetElement(set);
     final var messageText = userFirstName
       .concat(", ")
       .concat(randomPrediction);
@@ -228,6 +274,8 @@ public class ComplimentsForStasyaBot extends TelegramLongPollingBot {
     phrases.add("Певица в полиции - звучит хорошо)");
     phrases.add("Tip of the day - give Lost a chance, have free time - watch 2-3 episodes - you won't regret about it");
     phrases.add("Recruiter team lead position is close - keep  going");
+    phrases.add("У тебя нежно-обнимательный взгляд!");
+    phrases.add("Твои глаза – они очаровывают)");
     phrases.add("Riding a bike and talking on the iPhone at the same time is not a good idea :D");
     phrases.add("When you are offered to play the game - it will not necessarily be a Dota :D");
     phrases.add("Walking with an iPhone in a severe thunderstorm is dangerous, what if it gets wet? :D");
@@ -238,5 +286,67 @@ public class ComplimentsForStasyaBot extends TelegramLongPollingBot {
     phrases.add("I'm really impressed with your taste and style. It is really obvious that you have thought carefully about how to decorate the inside of this room.");
     phrases.add("I never realized just how great your sense of humor was! You always know just what to say to make someone else laugh. That is a great way to maintain relationships throughout your life. ");
     phrases.add("I consider myself lucky to have gotten to know you. You have had a major impact on my life, and I truly appreciate it.");
+    phrases.add("Свидание с бабушкой француженкой? Звучит как идеальное воскресенье :D");
+    phrases.add("Ты очень внимательна, замечаешь мелкие детали");
+    phrases.add("Ты отличный слушатель, с тобой приятно вести диалог");
+    phrases.add("Будь внимательней с тем - кто заставляет испытывать тебя эмоциональные качели :D");
+    phrases.add("Совет дня - не стоит смотерть Hypnotic фильм, он не очень :D");
+    phrases.add("Говорят, глаза - это зеркало души. Это многое объясняет)");
+    phrases.add("Have you ever noticed how green eyes look absolutely the same as gray eyes? :D");
+    phrases.add("Ти пахнеш, наче квіти \nІ сяєш наче сонце\nРаді твоєй красоти\nВиплигнув би я в оконце :D");
+    phrases.add("Juste une phrase aléatoire en français pour que ce bot commence à écrire des phrases en trois langues :D");
+
+    fortune = new HashSet<>();
+    fortune.add("People are naturally attracted to you.");
+    fortune.add("You learn from your mistakes... You will learn a lot today.");
+    fortune.add("If you have something good in your life, don't let it go!");
+    fortune.add("What ever you're goal is in life, embrace it visualize it, and for it will be yours.");
+    fortune.add("Your shoes will make you happy today.");
+    fortune.add("You cannot love life until you live the life you love.");
+    fortune.add("Be on the lookout for coming events; They cast their shadows beforehand.");
+    fortune.add("Land is always on the mind of a flying bird.");
+    fortune.add("The man or woman you desire feels the same about you.");
+    fortune.add("Meeting adversity well is the source of your strength.");
+    fortune.add("A dream you have will come true.");
+    fortune.add("Our deeds determine us, as much as we determine our deeds.");
+    fortune.add("Never give up. You're not a failure if you don't give up.");
+    fortune.add("You will become great if you believe in yourself.");
+    fortune.add("There is no greater pleasure than seeing your loved ones prosper.");
+    fortune.add("You will marry your lover.");
+    fortune.add("The greatest love is self-love.");
+    fortune.add("A very attractive person has a message for you.");
+    fortune.add("You already know the answer to the questions lingering inside your head.");
+    fortune.add("It is now, and in this world, that we must live.");
+    fortune.add("You must try, or hate yourself for not trying.");
+    fortune.add("You can make your own happiness.");
+    fortune.add("The greatest risk is not taking one.");
+    fortune.add("The love of your life is stepping into your planet this summer.");
+    fortune.add("Love can last a lifetime, if you want it to.");
+    fortune.add("Adversity is the parent of virtue.");
+    fortune.add("Serious trouble will bypass you.");
+    fortune.add("A short stranger will soon enter your life with blessings to share.");
+    fortune.add("Now is the time to try something new.");
+    fortune.add("Wealth awaits you very soon.");
+    fortune.add("If you feel you are right, stand firmly by your convictions.");
+    fortune.add("If winter comes, can spring be far behind?");
+    fortune.add("Keep your eye out for someone special.");
+    fortune.add("You are very talented in many ways.");
+    fortune.add("A stranger, is a friend you have not spoken to yet.");
+    fortune.add("A new voyage will fill your life with untold memories.");
+    fortune.add("You will travel to many exotic places in your lifetime.");
+    fortune.add("Your ability for accomplishment will follow with success.");
+    fortune.add("Nothing astonishes men so much as common sense and plain dealing.");
+    fortune.add("Its amazing how much good you can do if you dont care who gets the credit.");
+    fortune.add("Everyone agrees. You are the best.");
+    fortune.add("LIFE CONSISTS NOT IN HOLDING GOOD CARDS, BUT IN PLAYING THOSE YOU HOLD WELL.");
+    fortune.add("Jealousy doesn't open doors, it closes them!");
+    fortune.add("It's better to be alone sometimes.");
+    fortune.add("When fear hurts you, conquer it and defeat it!");
+    fortune.add("Let the deeds speak.");
+    fortune.add("You will be called in to fulfill a position of high honor and responsibility.");
+    fortune.add("The man on the top of the mountain did not fall there.");
+    fortune.add("You will conquer obstacles to achieve success.");
+    fortune.add("Joys are often the shadows, cast by sorrows.");
+    fortune.add("Fortune favors the brave.");
   }
 }
