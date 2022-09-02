@@ -4,6 +4,8 @@ import com.barterbay.app.exception.aws.S3GeneralException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.EmptyResultDataAccessException;
+import com.barterbay.app.exception.registration.OverdueTokenException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -53,5 +55,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
     return new ResponseEntity<>(apiError, apiError.getStatus());
+  }
+
+  @ExceptionHandler({OverdueTokenException.class})
+  public ResponseEntity<Object> handleOverdueTokenException(
+    Exception ex, WebRequest request){
+    return new ResponseEntity<>(
+      "Dear user, verification link has expired, please register again. " +
+        "You are able to register with the same email and receive new verification link",
+      new HttpHeaders(), HttpStatus.BAD_REQUEST
+    );
   }
 }

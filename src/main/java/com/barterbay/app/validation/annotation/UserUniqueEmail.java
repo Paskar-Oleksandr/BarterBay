@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface UserUniqueEmail {
 
-  String message() default "The user with this email is already exist";
+  String message() default "Dear User, this email is already in use, please, choose another email";
 
   Class<?>[] groups() default {};
 

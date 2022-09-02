@@ -9,5 +9,7 @@
   <include file="db/changelogs/002_default_user.xml" relativeToChangelogFile="false"/>
   <include file="db/changelogs/003_add_address__and_goods_tables.xml" relativeToChangelogFile="false"/>
   <include file="db/changelogs/004_add_good_photo_table.xml" relativeToChangelogFile="false"/>
+  <include file="db/changelogs/005_update_bb_user_columns.xml" relativeToChangelogFile="false"/>
+  <include file="db/changelogs/006_create_token_for_user.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

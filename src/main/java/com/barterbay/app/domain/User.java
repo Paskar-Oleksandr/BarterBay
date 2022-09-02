@@ -1,6 +1,8 @@
 package com.barterbay.app.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -21,7 +24,8 @@ import java.util.Set;
   indexes = @Index(name = "ue_index", columnList = "email", unique = true))
 @Getter
 @Setter
-public class User extends AbstractAuditingEntity {
+@NoArgsConstructor
+public class User extends AbstractAuditingEntity implements Serializable {
 
   private static final long serialVersionUID = -2548006027287809458L;
 
@@ -55,4 +59,11 @@ public class User extends AbstractAuditingEntity {
 
   @OneToMany(mappedBy = "user")
   private Set<Good> goods;
+  @OneToOne(mappedBy = "user")
+  private ConfirmationToken token;
+
+  public User(String email, String password) {
+    this.email = email;
+    this.password = password;
+  }
 }
