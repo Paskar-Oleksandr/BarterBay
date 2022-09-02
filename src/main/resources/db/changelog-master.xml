@@ -7,5 +7,7 @@
 
   <include file="db/changelogs/001_init_base_tables.xml" relativeToChangelogFile="false"/>
   <include file="db/changelogs/002_default_user.xml" relativeToChangelogFile="false"/>
+  <include file="db/changelogs/004_update_bb_user_columns.xml" relativeToChangelogFile="false"/>
+  <include file="db/changelogs/003_create_token_for_user.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

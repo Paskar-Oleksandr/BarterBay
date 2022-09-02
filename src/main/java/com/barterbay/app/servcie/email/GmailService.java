@@ -1,4 +1,4 @@
-package com.barterbay.app.servcie;
+package com.barterbay.app.servcie.email;
 
 import com.barterbay.app.exception.SendEmailException;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class EmailService {
+public class GmailService {
 
   private static final String UTF_8 = "UTF-8";
 
@@ -27,7 +27,7 @@ public class EmailService {
   }
 
   @Async
-  public void sendEmail(String[] to, String subject, String body, MultipartFile attachment) {
+  public void sendEmailWithAttachment(String[] to, String subject, String body, MultipartFile attachment) {
     javaMailSender.send(mimeMessage -> createMimeMessageAttachment(mimeMessage, to, subject, body, attachment));
   }
 

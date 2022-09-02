@@ -1,5 +1,6 @@
 package com.barterbay.app.exception;
 
+import com.barterbay.app.exception.registration.OverdueTokenException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +34,15 @@ public class RestResponseEntityExceptionHandler
     Exception ex, WebRequest request) {
     return new ResponseEntity<>(
       "Error while sending email", new HttpHeaders(), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler({OverdueTokenException.class})
+  public ResponseEntity<Object> handleOverdueTokenException(
+    Exception ex, WebRequest request){
+    return new ResponseEntity<>(
+      "Dear user, verification link has expired, please register again. " +
+        "You are able to register with the same email and receive new verification link",
+      new HttpHeaders(), HttpStatus.BAD_REQUEST
+    );
   }
 }
