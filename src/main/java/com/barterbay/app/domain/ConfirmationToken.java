@@ -25,6 +25,8 @@ import java.time.LocalDateTime;
 @Table(name = "confirmation_token")
 public class ConfirmationToken implements Serializable {
 
+  private static final long serialVersionUID = -7483943608179051784L;
+
   @SequenceGenerator(
     name = "confirmation_token_sequenceGenerator",
     sequenceName = "confirmation_token_sequence",
@@ -36,25 +38,24 @@ public class ConfirmationToken implements Serializable {
   )
   @Column(name = "token_id")
   private Long id;
-  @Column(name = "token", nullable = false, unique = true)
+
+  @Column(nullable = false, unique = true)
   private String token;
+
   @Column(name = "created_at", nullable = false)
   private LocalDateTime createdAt;
+
   @Column(name = "expires_at", nullable = false)
   private LocalDateTime expiresAt;
 
   private LocalDateTime confirmedAt;
+
   @OneToOne(cascade = CascadeType.ALL, targetEntity = User.class, fetch = FetchType.LAZY)
-  @JoinColumn(
-    nullable = false,
-    name = "user_id"
-  )
+  @JoinColumn(nullable = false, name = "user_id")
   private User user;
 
-  public ConfirmationToken(String token,
-                           LocalDateTime createdAt,
-                           LocalDateTime expiresAt,
-                           User user) {
+  public ConfirmationToken(String token, LocalDateTime createdAt,
+                           LocalDateTime expiresAt, User user) {
     this.token = token;
     this.createdAt = createdAt;
     this.expiresAt = expiresAt;
