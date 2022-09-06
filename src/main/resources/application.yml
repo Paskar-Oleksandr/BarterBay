@@ -120,3 +120,16 @@ prediction-telegram-bot:
 
 random-compliment-api:
   url: https://complimentr.com/api
+
+aws:
+  all-bucket-names: bb-good-photos,barter-bay-app-packages
+  s3:
+    region:
+      virginia: us-east-1
+      paris: eu-west-3
+    bucket-name:
+      photos: bb-good-photos
+      packages: barter-bay-app-packages
+    key:
+      secret: ${S3_SECRET}
+      access: ${S3_ACCESS}

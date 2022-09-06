@@ -25,4 +25,5 @@ public interface GoodMapper {
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
   void updateGood(GoodDTO goodDTO, @MappingTarget Good good);
+
 }

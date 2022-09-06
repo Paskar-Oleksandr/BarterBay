@@ -3,6 +3,7 @@ package com.barterbay.app.controller;
 import com.barterbay.app.domain.Good;
 import com.barterbay.app.domain.dto.good.GoodDTO;
 import com.barterbay.app.servcie.GoodService;
+import com.barterbay.app.specification.SearchCriteria;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,6 +54,12 @@ public class GoodController {
   @PostMapping
   public ResponseEntity<Good> createGood(@RequestBody @Valid GoodDTO goodDTO) {
     return new ResponseEntity<>(goodService.saveGood(goodDTO), HttpStatus.CREATED);
+  }
+
+  @GetMapping("/search")
+  @ResponseBody
+  public ResponseEntity<List<GoodDTO>> searchGoods(@RequestBody SearchCriteria searchCriteria) {
+    return ResponseEntity.ok(goodService.searchGoods(searchCriteria));
   }
 }
 
