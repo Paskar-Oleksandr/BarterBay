@@ -1,7 +1,6 @@
 package com.barterbay.app.config;
 
 import com.barterbay.app.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -12,29 +11,37 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@AllArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   private final UserService userService;
+
+  public SecurityConfiguration(UserService userService) {
+    this.userService = userService;
+  }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
       .csrf().disable()
       .authorizeRequests()
-      .antMatchers("/ping/**", "/js/**", "/css/**", "/images/**", "/fonts/**", "/vendor/**").permitAll()
-      .anyRequest().authenticated()
+      .antMatchers("/ping/**").permitAll()
+      .anyRequest()
+      .authenticated()
       .and()
       .formLogin()
       .loginPage("/auth/login").permitAll()
+      .defaultSuccessUrl("/auth/success")
       .and()
       .logout()
+      .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
       .invalidateHttpSession(true)
       .clearAuthentication(true)
-      .deleteCookies("JSESSIONID");
+      .deleteCookies("JSESSIONID")
+      .logoutSuccessUrl("/auth/login");
   }
 
   @Override

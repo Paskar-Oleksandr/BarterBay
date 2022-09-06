@@ -13,4 +13,5 @@ public class PingController {
   public ResponseEntity<String> ping() {
     return ResponseEntity.ok("Works fine second part");
   }
+
 }
