@@ -10,7 +10,7 @@
   <include file="db/changelogs/003_add_address__and_goods_tables.xml" relativeToChangelogFile="false"/>
   <include file="db/changelogs/004_add_good_photo_table.xml" relativeToChangelogFile="false"/>
   <include file="db/changelogs/005_add_bb_user_userRole.xml" relativeToChangelogFile="false"/>
-  <include file="db/changelogs/006_add_default_user.xml" relativeToChangelogFile="false"/>
+
 
 
 </databaseChangeLog>

@@ -25,7 +25,6 @@ public class SecurityUser implements UserDetails {
     return authorities;
   }
 
-
   @Override
   public String getPassword() {
     return password;
@@ -55,7 +54,6 @@ public class SecurityUser implements UserDetails {
   public boolean isEnabled() {
     return isActive;
   }
-
 
   public static UserDetails fromUser(com.barterbay.app.domain.User user) {
     return new org.springframework.security.core.userdetails.User(

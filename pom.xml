@@ -167,17 +167,17 @@
       <version>${aws-java-sdk-s3.version}</version>
     </dependency>
 
-      <dependency>
-          <groupId>org.javatuples</groupId>
-          <artifactId>javatuples</artifactId>
-          <version>${javatuples.version}</version>
-      </dependency>
+    <dependency>
+      <groupId>org.javatuples</groupId>
+      <artifactId>javatuples</artifactId>
+      <version>${javatuples.version}</version>
+    </dependency>
 
-      <dependency>
-          <groupId>org.reflections</groupId>
-          <artifactId>reflections</artifactId>
-          <version>${reflections.version}</version>
-      </dependency>
+    <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>${reflections.version}</version>
+    </dependency>
 
   </dependencies>
 

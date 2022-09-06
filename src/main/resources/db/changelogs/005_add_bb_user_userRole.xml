@@ -6,8 +6,8 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-  <changeSet id="003_add_bb_user_userRole" author="Ionutsa Nicolai">
-    <sqlFile path="sql/003_add_bb_user_userRole.sql" relativeToChangelogFile="true"/>
+  <changeSet id="005_add_bb_user_userRole" author="Ionutsa Nicolai">
+    <sqlFile path="sql/005_add_bb_user_userRole.sql" relativeToChangelogFile="true"/>
   </changeSet>
 
 </databaseChangeLog>

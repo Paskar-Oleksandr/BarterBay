@@ -23,6 +23,8 @@ public class UserService implements UserDetailsService {
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     return userRepository.findByEmail(email)
       .map(SecurityUser::fromUser)
-      .orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
+      .orElseThrow(() -> {
+        throw new UsernameNotFoundException("User doesn't exists");
+      });
   }
 }
