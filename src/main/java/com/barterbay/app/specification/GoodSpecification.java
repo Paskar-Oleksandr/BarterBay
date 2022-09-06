@@ -13,7 +13,8 @@ import javax.persistence.criteria.Root;
 @AllArgsConstructor
 public class GoodSpecification implements Specification<Good> {
 
-  private SearchCriteria criteria;
+  private transient SearchCriteria criteria;
+
 
   @Override
   public Predicate toPredicate(Root<Good> root, CriteriaQuery<?> query, CriteriaBuilder builder) {

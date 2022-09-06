@@ -43,7 +43,7 @@ public class GoodController {
   @PutMapping(value = "/{goodId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
   @ResponseStatus(HttpStatus.OK)
   public void updateGoodById(@PathVariable long goodId,
-                             @ModelAttribute @Valid GreateGoodDTO goodDTO) {
+                             @ModelAttribute @Valid CreateGoodDTO goodDTO) {
     goodService.updateGoodById(goodId, goodDTO);
   }
 

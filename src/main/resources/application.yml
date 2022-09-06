@@ -140,6 +140,6 @@ aws:
     bucket-name:
       photos: bb-good-photos
       packages: barter-bay-app-packages
-    key:
-      secret: ${S3_SECRET}
-      access: ${S3_ACCESS}
+        key:
+          secret: ${S3_SECRET}
+          access: ${S3_ACCESS}
