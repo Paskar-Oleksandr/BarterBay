@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="004_add_good_photo_table" author="Paskar Oleksandr">
+        <sql>
+            DROP SEQUENCE IF EXISTS good_photo_sequence;
+            CREATE SEQUENCE good_photo_sequence INCREMENT BY 1;
+
+            DROP TABLE IF EXISTS good_photo CASCADE;
+
+            CREATE TABLE good_photo
+            (
+            good_photo_id      BIGINT PRIMARY KEY,
+            url_path           VARCHAR(500) NOT NULL,
+            good_id            BIGINT       NOT NULL,
+            created_date       TIMESTAMP    NOT NULL,
+            last_modified_date TIMESTAMP    NOT NULL,
+
+            FOREIGN KEY (good_id) REFERENCES good (good_id)
+            );
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

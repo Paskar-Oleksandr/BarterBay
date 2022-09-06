@@ -1,4 +1,4 @@
-package com.barterbay.app.domain.dto;
+package com.barterbay.app.domain.dto.telegram;
 
 import lombok.Getter;
 import lombok.Setter;
