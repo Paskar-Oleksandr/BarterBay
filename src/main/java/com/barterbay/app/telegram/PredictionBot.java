@@ -13,9 +13,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.barterbay.app.telegram.ComplimentBot.START_COMMAND;
 import static com.barterbay.app.telegram.ComplimentBot.createSendMessageForTelegram;
 import static com.barterbay.app.util.CollectionsUtil.getRandomSetElement;
-import static com.barterbay.app.util.Constants.START_COMMAND;
 
 @Service
 @Profile("prod")
