@@ -1,0 +1,2 @@
+ALTER TABLE bb_user
+ADD COLUMN user_role VARCHAR(60)CHECK ( user_role IN ('USER', 'ADMIN', 'MASTER' ) ) NOT NULL DEFAULT 'USER';

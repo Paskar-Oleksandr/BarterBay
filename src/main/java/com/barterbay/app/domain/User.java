@@ -1,10 +1,13 @@
 package com.barterbay.app.domain;
 
+import com.barterbay.app.enumeration.Role;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -55,4 +58,8 @@ public class User extends AbstractAuditingEntity {
 
   @OneToMany(mappedBy = "user")
   private Set<Good> goods;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "user_role", nullable = false, length = 50)
+  private Role userRole;
 }
