@@ -1,6 +1,5 @@
 package com.barterbay.app.enumeration;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -11,7 +10,7 @@ public enum Role {
   USER, ADMIN, MASTER;
 
   public Set<GrantedAuthority> getAuthorities() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    final var authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication == null) {
       return Collections.emptySet();
     }
