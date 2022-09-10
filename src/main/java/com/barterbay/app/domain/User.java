@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity

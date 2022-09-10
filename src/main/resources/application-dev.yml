@@ -10,7 +10,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/barter-bay-dev
     username: postgres
-    password: 25472547
+    password: postgres
 
   jpa:
     show-sql: false

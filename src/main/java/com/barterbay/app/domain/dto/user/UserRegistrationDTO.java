@@ -25,6 +25,6 @@ public class UserRegistrationDTO {
   private String email;
 
   @NotBlank(message = "Password cannot be empty")
-  @Pattern(regexp = Constants.UserConstants.PASSWORD_PATTERN)
+  @Pattern(regexp = Constants.PASSWORD_PATTERN)
   private String password;
 }
