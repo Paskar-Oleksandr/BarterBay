@@ -10,6 +10,7 @@ import com.barterbay.app.exception.aws.S3GeneralException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,13 +31,13 @@ public class S3Scheduler {
     this.s3client = s3client;
   }
 
-//  @Scheduled(cron = "0 0 10 * * *") // every day 10 AM
+  @Scheduled(cron = "0 0 10 * * *") // every day 10 AM
   public void clearS3PackagesBucketEveryDay() {
     log.info("Cron job has been invoked for {} bucket at {}", bucketName, LocalDateTime.now());
     try {
       final var fileNames = s3client.listObjectsV2(
-        new ListObjectsV2Request().withBucketName(bucketName)
-      )
+          new ListObjectsV2Request().withBucketName(bucketName)
+        )
         .getObjectSummaries()
         .stream()
         .map(S3ObjectSummary::getKey)

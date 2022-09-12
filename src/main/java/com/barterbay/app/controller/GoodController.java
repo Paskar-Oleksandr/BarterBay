@@ -65,5 +65,3 @@ public class GoodController {
     return ResponseEntity.ok(goodService.searchGoods(searchCriteria));
   }
 }
-
-

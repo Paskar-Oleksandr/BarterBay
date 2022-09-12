@@ -15,7 +15,6 @@ public class GoodSpecification implements Specification<Good> {
 
   private transient SearchCriteria criteria;
 
-
   @Override
   public Predicate toPredicate(Root<Good> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
     if (criteria.getOperation().equals(SearchOperation.CONTAINS)) {
@@ -31,4 +30,3 @@ public class GoodSpecification implements Specification<Good> {
     return null;
   }
 }
-
