@@ -1,6 +1,6 @@
 package com.barterbay.app.telegram;
 
-import com.barterbay.app.domain.dto.telegram.ComplimentDTO;
+import com.barterbay.app.domain.dto.ComplimentDTO;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -17,11 +17,12 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.barterbay.app.util.CollectionsUtil.getRandomSetElement;
-import static com.barterbay.app.util.Constants.START_COMMAND;
 
 @Service
 @Profile("prod")
 public class ComplimentBot extends TelegramLongPollingBot {
+
+  static final String START_COMMAND = "/start";
 
   private Set<String> compliments;
   private final WebClient webClient;
