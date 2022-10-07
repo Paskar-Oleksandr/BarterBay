@@ -42,11 +42,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
   @Column(name = "email", nullable = false, unique = true, length = 100)
   private String email;
 
-  @NotBlank
   @Column(name = "first_name", nullable = false, length = 100)
   private String firstName;
 
-  @NotBlank
   @Column(name = "last_name", nullable = false, length = 100)
   private String lastName;
 

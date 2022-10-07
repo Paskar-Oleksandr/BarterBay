@@ -6,7 +6,7 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-  <changeSet id="003_join_token_to_user.sql" author="Krasilovskyi Oleksandr">
+  <changeSet id="003_init_token_table.sql" author="Krasilovskyi Oleksandr">
     <sqlFile path="sql/006_init_token_table.sql" relativeToChangelogFile="true"/>
   </changeSet>
 

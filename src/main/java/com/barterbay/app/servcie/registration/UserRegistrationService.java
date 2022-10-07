@@ -3,6 +3,7 @@ package com.barterbay.app.servcie.registration;
 import com.barterbay.app.domain.User;
 import com.barterbay.app.domain.dto.user.UserRegistrationDTO;
 import com.barterbay.app.exception.registration.OverdueTokenException;
+import com.barterbay.app.exception.registration.ConfirmEmailException;
 import com.barterbay.app.repository.UserRepository;
 import com.barterbay.app.servcie.email.GmailService;
 import lombok.AllArgsConstructor;
@@ -31,24 +32,23 @@ public class UserRegistrationService {
       new String[]{userRegistrationDTO.getEmail()},
       "Confirm your email",
       link);
-    return userToken;
+    return link;
   }
 
   @Transactional(noRollbackFor = OverdueTokenException.class)
   public void confirmToken(String token) {
     var confirmationToken = confirmationTokenService.findToken(token)
-      .orElseThrow(() -> new IllegalStateException("Token not found"));
+      .orElseThrow(() -> new IllegalStateException("Entity not found"));
 
     if (confirmationToken.getConfirmedAt() != null) {
-      throw new IllegalStateException("Email already confirmed");
+      throw new ConfirmEmailException("Email already confirmed");
     }
 
     if (!confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
       confirmationToken.setConfirmedAt(LocalDateTime.now());
     } else {
       confirmationTokenService.deleteConfirmationToken(confirmationToken);
-      throw new OverdueTokenException("Dear user, verification link has expired, please register again. " +
-        "You are able to register with the same email and receive new verification link");
+      throw new OverdueTokenException("Dear user, verification link has expired, please register again. You are able to register with the same email and receive new verification link");
     }
   }
 

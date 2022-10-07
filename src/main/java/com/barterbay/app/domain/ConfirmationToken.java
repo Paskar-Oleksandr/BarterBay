@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 @Table(name = "confirmation_token")
 public class ConfirmationToken implements Serializable {
 
