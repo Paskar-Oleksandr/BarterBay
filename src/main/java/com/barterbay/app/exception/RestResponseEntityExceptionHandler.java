@@ -6,7 +6,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -54,10 +53,5 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
     return new ResponseEntity<>(apiError, apiError.getStatus());
-  }
-
-  @ExceptionHandler(value = EntityNotFoundException.class)
-  protected ResponseEntity<Object> handleUsernameNotFoundException(UsernameNotFoundException exception) {
-    return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, exception.getLocalizedMessage(), exception));
   }
 }

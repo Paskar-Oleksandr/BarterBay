@@ -3,6 +3,7 @@ package com.barterbay.app.repository;
 import com.barterbay.app.domain.Good;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface GoodRepository extends JpaRepository<Good, Long> {
+public interface GoodRepository extends JpaRepository<Good, Long>, JpaSpecificationExecutor<Good> {
 
   @EntityGraph(attributePaths = {
     "address", "goodPhotos"

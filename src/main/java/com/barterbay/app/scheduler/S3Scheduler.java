@@ -36,8 +36,8 @@ public class S3Scheduler {
     log.info("Cron job has been invoked for {} bucket at {}", bucketName, LocalDateTime.now());
     try {
       final var fileNames = s3client.listObjectsV2(
-        new ListObjectsV2Request().withBucketName(bucketName)
-      )
+          new ListObjectsV2Request().withBucketName(bucketName)
+        )
         .getObjectSummaries()
         .stream()
         .map(S3ObjectSummary::getKey)
