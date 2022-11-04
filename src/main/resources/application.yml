@@ -142,4 +142,4 @@ aws:
       packages: barter-bay-app-packages
     key:
       secret: ${S3_SECRET}
-      access: ${S3_SECRET}
+      access: ${S3_ACCESS}

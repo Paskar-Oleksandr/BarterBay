@@ -2,10 +2,10 @@ package com.barterbay.app.servcie.registration;
 
 import com.barterbay.app.domain.User;
 import com.barterbay.app.domain.dto.user.UserRegistrationDTO;
+import com.barterbay.app.exception.registration.ConfirmationEmailException;
 import com.barterbay.app.exception.registration.OverdueTokenException;
-import com.barterbay.app.exception.registration.ConfirmEmailException;
 import com.barterbay.app.repository.UserRepository;
-import com.barterbay.app.servcie.email.GmailService;
+import com.barterbay.app.servcie.email.EmailSender;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @Transactional
 public class UserRegistrationService {
 
-  private final GmailService gmailService;
+  private final EmailSender emailSender;
   private final ConfirmationTokenService confirmationTokenService;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
   private final UserRepository userRepository;
@@ -28,7 +28,7 @@ public class UserRegistrationService {
     final var user = createUser(userRegistrationDTO);
     final var userToken = createToken(user);
     final var link = "http://localhost:3111/v1/bb/registration/confirm?token=" + userToken;
-    gmailService.sendEmail(
+    emailSender.sendEmail(
       new String[]{userRegistrationDTO.getEmail()},
       "Confirm your email",
       link);
@@ -41,7 +41,7 @@ public class UserRegistrationService {
       .orElseThrow(() -> new IllegalStateException("Entity not found"));
 
     if (confirmationToken.getConfirmedAt() != null) {
-      throw new ConfirmEmailException("Email already confirmed");
+      throw new ConfirmationEmailException("Email already confirmed");
     }
 
     if (!confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())) {

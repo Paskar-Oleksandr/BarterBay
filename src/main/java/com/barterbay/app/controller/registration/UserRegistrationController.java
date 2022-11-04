@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/registration")
+@RequestMapping("/registrations")
 @AllArgsConstructor
 public class UserRegistrationController {
   private final UserRegistrationService userRegistrationService;
@@ -25,7 +25,7 @@ public class UserRegistrationController {
   }
 
   @PostMapping("/confirm")
-  public ModelAndView confirm(@RequestParam("token") String token) {
+  public ModelAndView confirm(@RequestParam String token) {
     userRegistrationService.confirmToken(token);
     return new ModelAndView("create-user-data");
   }

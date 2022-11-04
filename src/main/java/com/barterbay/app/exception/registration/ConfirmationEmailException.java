@@ -3,10 +3,10 @@ package com.barterbay.app.exception.registration;
 import lombok.Getter;
 
 @Getter
-public class ConfirmEmailException extends RuntimeException {
+public class ConfirmationEmailException extends RuntimeException {
   private final String message;
 
-  public ConfirmEmailException(String message) {
+  public ConfirmationEmailException(String message) {
     super(message);
     this.message = message;
   }

@@ -30,7 +30,8 @@ public class ConfirmationToken implements Serializable {
   @SequenceGenerator(
     name = "confirmation_token_sequenceGenerator",
     sequenceName = "confirmation_token_sequence",
-    allocationSize = 1)
+    allocationSize = 1
+  )
   @Id
   @GeneratedValue(
     strategy = GenerationType.SEQUENCE,
@@ -48,6 +49,7 @@ public class ConfirmationToken implements Serializable {
   @Column(name = "expires_at", nullable = false)
   private LocalDateTime expiresAt;
 
+  @Column(name = "confirmed_at")
   private LocalDateTime confirmedAt;
 
   @OneToOne(cascade = CascadeType.ALL, targetEntity = User.class, fetch = FetchType.LAZY)

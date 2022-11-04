@@ -1,7 +1,7 @@
 package com.barterbay.app.exception;
 
 import com.barterbay.app.exception.aws.S3GeneralException;
-import com.barterbay.app.exception.registration.ConfirmEmailException;
+import com.barterbay.app.exception.registration.ConfirmationEmailException;
 import com.barterbay.app.exception.registration.OverdueTokenException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -63,8 +63,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage, tokenException));
   }
 
-  @ExceptionHandler({ConfirmEmailException.class})
-  public ResponseEntity<Object> handleTokenConfirmException(ConfirmEmailException emailException) {
+  @ExceptionHandler({ConfirmationEmailException.class})
+  public ResponseEntity<Object> handleTokenConfirmException(ConfirmationEmailException emailException) {
     final var errorMessage = "Email already confirm";
     return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage, emailException));
   }
