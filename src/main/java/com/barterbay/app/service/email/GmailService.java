@@ -1,4 +1,4 @@
-package com.barterbay.app.servcie.email;
+package com.barterbay.app.service.email;
 
 import com.barterbay.app.exception.SendEmailException;
 import lombok.AllArgsConstructor;

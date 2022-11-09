@@ -1,11 +1,11 @@
-package com.barterbay.app.servcie.registration;
+package com.barterbay.app.service.registration;
 
 import com.barterbay.app.domain.User;
 import com.barterbay.app.domain.dto.user.UserRegistrationDTO;
 import com.barterbay.app.exception.registration.ConfirmationEmailException;
 import com.barterbay.app.exception.registration.OverdueTokenException;
 import com.barterbay.app.repository.UserRepository;
-import com.barterbay.app.servcie.email.EmailSender;
+import com.barterbay.app.service.email.EmailSender;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

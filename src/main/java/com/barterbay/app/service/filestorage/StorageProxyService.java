@@ -1,4 +1,4 @@
-package com.barterbay.app.servcie.filestorage;
+package com.barterbay.app.service.filestorage;
 
 import com.amazonaws.services.s3.AmazonS3;
 import lombok.extern.slf4j.Slf4j;

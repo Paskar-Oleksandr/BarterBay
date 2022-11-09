@@ -1,7 +1,7 @@
 package com.barterbay.app.controller.registration;
 
 import com.barterbay.app.domain.dto.user.UserRegistrationDTO;
-import com.barterbay.app.servcie.registration.UserRegistrationService;
+import com.barterbay.app.service.registration.UserRegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

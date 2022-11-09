@@ -1,4 +1,4 @@
-package com.barterbay.app.servcie.email;
+package com.barterbay.app.service.email;
 
 import org.springframework.web.multipart.MultipartFile;
 

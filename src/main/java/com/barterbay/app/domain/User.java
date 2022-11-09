@@ -1,17 +1,20 @@
 package com.barterbay.app.domain;
 
+import com.barterbay.app.enumeration.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -57,6 +60,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
   @OneToMany(mappedBy = "user")
   private Set<Good> goods;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "user_role", nullable = false, length = 50)
+  private UserRole userRole;
+
   @OneToOne(mappedBy = "user")
   private ConfirmationToken token;
 

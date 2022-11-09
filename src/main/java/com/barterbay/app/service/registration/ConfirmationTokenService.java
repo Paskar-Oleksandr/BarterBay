@@ -1,4 +1,4 @@
-package com.barterbay.app.servcie.registration;
+package com.barterbay.app.service.registration;
 
 import com.barterbay.app.domain.ConfirmationToken;
 import com.barterbay.app.domain.User;
