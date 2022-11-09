@@ -1,7 +1,8 @@
 package com.barterbay.app.domain;
 
-import com.barterbay.app.enumeration.Role;
+import com.barterbay.app.enumeration.UserRole;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -13,10 +14,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -24,7 +27,8 @@ import java.util.Set;
   indexes = @Index(name = "ue_index", columnList = "email", unique = true))
 @Getter
 @Setter
-public class User extends AbstractAuditingEntity {
+@NoArgsConstructor
+public class User extends AbstractAuditingEntity implements Serializable {
 
   private static final long serialVersionUID = -2548006027287809458L;
 
@@ -41,11 +45,9 @@ public class User extends AbstractAuditingEntity {
   @Column(name = "email", nullable = false, unique = true, length = 100)
   private String email;
 
-  @NotBlank
   @Column(name = "first_name", nullable = false, length = 100)
   private String firstName;
 
-  @NotBlank
   @Column(name = "last_name", nullable = false, length = 100)
   private String lastName;
 
@@ -61,5 +63,13 @@ public class User extends AbstractAuditingEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "user_role", nullable = false, length = 50)
-  private Role userRole;
+  private UserRole userRole;
+
+  @OneToOne(mappedBy = "user")
+  private ConfirmationToken token;
+
+  public User(String email, String password) {
+    this.email = email;
+    this.password = password;
+  }
 }

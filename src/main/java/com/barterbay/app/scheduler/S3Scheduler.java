@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static com.barterbay.app.servcie.filestorage.S3FileStorageService.AMAZON_SERVICE_EXCEPTION_MESSAGE;
-import static com.barterbay.app.servcie.filestorage.S3FileStorageService.SDK_CLIENT_EXCEPTION_MESSAGE;
+import static com.barterbay.app.service.filestorage.S3FileStorageService.AMAZON_SERVICE_EXCEPTION_MESSAGE;
+import static com.barterbay.app.service.filestorage.S3FileStorageService.SDK_CLIENT_EXCEPTION_MESSAGE;
 
 @Service
 @Slf4j

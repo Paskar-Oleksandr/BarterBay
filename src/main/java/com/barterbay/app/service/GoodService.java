@@ -1,4 +1,4 @@
-package com.barterbay.app.servcie;
+package com.barterbay.app.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.barterbay.app.domain.Address;
@@ -9,7 +9,7 @@ import com.barterbay.app.domain.dto.good.GoodDTO;
 import com.barterbay.app.mapper.GoodMapper;
 import com.barterbay.app.mapper.GoodPhotoMapper;
 import com.barterbay.app.repository.GoodRepository;
-import com.barterbay.app.servcie.filestorage.StorageProxyService;
+import com.barterbay.app.service.filestorage.StorageProxyService;
 import com.barterbay.app.specification.GoodSpecification;
 import com.barterbay.app.specification.SearchCriteria;
 import com.fasterxml.jackson.databind.ObjectMapper;
