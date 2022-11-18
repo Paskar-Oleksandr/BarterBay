@@ -2,7 +2,7 @@ package com.barterbay.app.enumeration.controller;
 
 import com.barterbay.app.domain.dto.good.CreateGoodDTO;
 import com.barterbay.app.domain.dto.good.GoodDTO;
-import com.barterbay.app.servcie.GoodService;
+import com.barterbay.app.service.GoodService;
 import com.barterbay.app.specification.SearchCriteria;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

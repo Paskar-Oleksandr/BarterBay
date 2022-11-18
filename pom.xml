@@ -27,7 +27,6 @@
     <jhipster.framework.version>7.0.1</jhipster.framework.version>
     <jackson.module.afterburner.version>2.12.5</jackson.module.afterburner.version>
     <jackson.datatype.hibernate5.version>2.12.5</jackson.datatype.hibernate5.version>
-    <telegram.version>6.1.0</telegram.version>
     <aws-java-sdk-s3.version>1.12.270</aws-java-sdk-s3.version>
     <javatuples.version>1.2</javatuples.version>
     <reflections.version>0.10.2</reflections.version>
@@ -153,12 +152,6 @@
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-hibernate5</artifactId>
       <version>${jackson.datatype.hibernate5.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.telegram</groupId>
-      <artifactId>telegrambots-spring-boot-starter</artifactId>
-      <version>${telegram.version}</version>
     </dependency>
 
     <dependency>

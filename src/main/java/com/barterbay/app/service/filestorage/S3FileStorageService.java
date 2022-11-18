@@ -1,4 +1,4 @@
-package com.barterbay.app.servcie.filestorage;
+package com.barterbay.app.service.filestorage;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;

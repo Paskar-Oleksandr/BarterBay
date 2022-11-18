@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Collections;
 import java.util.Set;
 
-public enum Role {
+public enum UserRole {
   USER, ADMIN, MASTER;
 
   public Set<GrantedAuthority> getAuthorities() {
@@ -17,4 +17,3 @@ public enum Role {
     return Set.copyOf(authentication.getAuthorities());
   }
 }
-
