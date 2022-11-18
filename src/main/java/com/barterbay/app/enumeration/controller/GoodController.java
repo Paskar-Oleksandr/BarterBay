@@ -1,4 +1,4 @@
-package com.barterbay.app.controller;
+package com.barterbay.app.enumeration.controller;
 
 import com.barterbay.app.domain.dto.good.CreateGoodDTO;
 import com.barterbay.app.domain.dto.good.GoodDTO;

@@ -105,6 +105,12 @@ spring:
           starttls:
             enable: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 
 # ===================================================================
 # Barter Bay Application specific properties
