@@ -23,7 +23,7 @@
     <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <lombok.version>1.18.24</lombok.version>
-    <commons.lang3.version>3.10</commons.lang3.version>
+    <commons.lang3.version>3.18.0</commons.lang3.version>
     <jhipster.framework.version>7.0.1</jhipster.framework.version>
     <jackson.module.afterburner.version>2.12.5</jackson.module.afterburner.version>
     <jackson.datatype.hibernate5.version>2.12.5</jackson.datatype.hibernate5.version>
